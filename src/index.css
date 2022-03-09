@@ -6,7 +6,11 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color:lightseagreen;
-  /* display: flex; */
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  margin: 0;
+
 }
 
 code {
@@ -14,6 +18,7 @@ code {
     monospace;
 }
 .App {
+  padding-bottom: 43px;
   background-color:antiquewhite;
   width: 450px;
   min-height: 200px;
@@ -21,12 +26,14 @@ code {
   border-radius: 15px;
   padding: 20px;
   box-shadow: 10px 10px 42px 0px rgba(0, 0, 0, 0.75);
-  /* display: flex; */
-  justify-content: space-evenly;
+  align-items: center;
+
+
+  
+
 }
 .answerSection{
   display: flex;
-
   flex-direction: column;
   justify-content: space-between;
 
@@ -39,8 +46,10 @@ code {
   /* padding-right: 30px; */
 }
 .questionNum{
-  
   margin-bottom: 10px;
+
+
+  
 }
 .questionText{
   padding:5px;
