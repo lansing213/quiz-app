@@ -1,7 +1,8 @@
 import logo from './logo.svg';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import './App.css';
+// import { useHistory } from "react-router-dom";
 import userEvent from '@testing-library/user-event';
 
 function App() {
@@ -70,7 +71,7 @@ const [current, setCurrent] = useState(0);
 const [score, setScore] = useState(0);
 const [showScore,setShowScore] = useState(false);
 const [scoreValue,setScoreValue ]= useState(0);
-
+let interval;
 const handleAnswerButtonClick = (isCorrect) =>{
 
     if(isCorrect === true){
@@ -88,17 +89,94 @@ const handleAnswerButtonClick = (isCorrect) =>{
     }
 
 };
+const handleBackButtonClick = (isBack) =>{
+
+    if(isBack === true){
+
+
+
+
+    }
+
+
+
+}
+// let history = useHistory();
+const [days, setDays] = useState();
+const [hours,setHours] = useState();
+const [mins,setMins] = useState();
+const [secs,setSecs] = useState();
+
+const timer = () =>{
+  const countDownDate = new Date().getTime() +( 60*60*1000);
+  interval = setInterval(() =>{
+      const now = new Date().getTime();
+      const distance = countDownDate - now;
+      const days = Math.floor(distance/ (24*60*60*1000));
+      const hours = Math.floor((distance % (24*60*60*1000)) /(60*60*1000));
+      const mins = Math.floor((distance % (60*60*1000)) /(60*1000));
+      const secs = Math.floor((distance % (60*1000)) /1000);
+      if(distance < 0){
+
+
+        clearInterval(interval,current);
+      }
+      else{
+        setDays(days);
+        setHours(hours);
+        setMins(mins);
+        setSecs(secs);
+
+      }
+
+
+  });
+
+
+}
+useEffect(() => {
+  timer();
+});
   return (
     <div className="App">
-      {showScore ? (      <div className='scoreSection'> Your score is {scoreValue}
+
+
+
+
+
+
+
+
+
+
+
+
+      {showScore ? (<div className='scoreSection'> Your score is {scoreValue}
+       
+      <button onClick={() => window.location.reload()}>Back</button>
       </div>
 ) : (    
 <div>
   <div className= "questionSection">
 <div className='questionNum'>
 <span>Question {current + 1} / {questions.length} </span>
+  </div><div className='timer'>
+  <section>
+    Time left {hours}:{mins}:{secs}
+
+  </section>
+  
+  
+  
+  
+  
   </div>
   <div className='questionText'>{questions[current].questionText}</div>
+
+
+
+
+
       </div>
 <div className='answerSection'>{questions[current].options.map((option) => 
 <button onClick={() =>handleAnswerButtonClick(option.isCorrect)}>{option.answerText}</button>)}
