@@ -102,15 +102,24 @@ const handleBackButtonClick = (isBack) =>{
 
 }
 // let history = useHistory();
+
+
+
+const [countDownDate, setCountDownDate] = useState(new Date());
 const [days, setDays] = useState();
 const [hours,setHours] = useState();
 const [mins,setMins] = useState();
 const [secs,setSecs] = useState();
 
+// const tempTime = new Date();
+const tempTime = new Date();
+
 const timer = () =>{
-  const countDownDate = new Date().getTime() +( 60*60*1000);
+
+  setCountDownDate(tempTime.setHours(tempTime.getHours() + 1));
   interval = setInterval(() =>{
-      const now = new Date().getTime();
+    const now = new Date().getTime();
+
       const distance = countDownDate - now;
       const days = Math.floor(distance/ (24*60*60*1000));
       const hours = Math.floor((distance % (24*60*60*1000)) /(60*60*1000));
