@@ -173,14 +173,13 @@ useEffect(() => {
 ) : (    
 <div>
 <div className= "questionSection">
-  <ul>
-    <li className='questionNumLi'>
+
+    <div className='questionNum'>
       Question {current + 1} / {questions.length}      
-    </li>
-    <li className='timerLi'>
-        <section>Time left {hours}:{mins}:{secs}</section>
-</li>
-</ul>
+    </div>
+    <div className='timer'>
+        Time left {hours}:{mins}:{secs}
+</div>
 
 <div className='questionText'>{questions[current].questionText}   </div>
 

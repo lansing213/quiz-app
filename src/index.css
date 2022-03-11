@@ -50,13 +50,12 @@ display: inline-block;
   /* padding-right: 30px; */
 }
 .questionNum{
-  padding-right: 240px;
+  
   display: inline-block;
-  position:absolute;
+
+  
 }
-.questionNumLi{
-  display: inline-block;
-}
+
 .questionText{
   padding:5px;
 }
@@ -74,12 +73,11 @@ button{
 button:focus {
   outline: none;
 }
-.timer{
-  display: inline-block;
-
+button:hover{
+  
 }
-.timerLi{
-  padding: 50px;
-
+.timer{
+  padding-left: 250px;
+  position: absolute;
   display: inline-block;
 }
