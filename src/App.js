@@ -84,39 +84,43 @@ const handleAnswerButtonClick = (isCorrect) =>{
     else{
       // alert("Congrats, you finished the quiz!");
       setScoreValue((score/questions.length) *100)
+      setFinish(true);
       setShowScore(true);
-
+      setTimeUp(false);
     }
 
 };
-const handleBackButtonClick = (isBack) =>{
+// const handleBackButtonClick = (isBack) =>{
 
-    if(isBack === true){
-
-
-
-
-    }
+//     if(isBack === true){
 
 
 
-}
+
+//     }
+
+
+
+// }
 // let history = useHistory();
 
 
 
-const [countDownDate, setCountDownDate] = useState(new Date());
+const [countDownDate, setCountDownDate] = useState(new Date().getTime() + (100*1000));
 const [days, setDays] = useState();
 const [hours,setHours] = useState();
 const [mins,setMins] = useState();
 const [secs,setSecs] = useState();
+const [timeUp,setTimeUp] = useState(false);
+const [finish,setFinish] = useState(false);
+// const [distance, setDistance] = useState();
 
 // const tempTime = new Date();
 const tempTime = new Date();
 
 const timer = () =>{
 
-  setCountDownDate(tempTime.setHours(tempTime.getHours() + 1));
+ 
   interval = setInterval(() =>{
     const now = new Date().getTime();
 
@@ -126,9 +130,14 @@ const timer = () =>{
       const mins = Math.floor((distance % (60*60*1000)) /(60*1000));
       const secs = Math.floor((distance % (60*1000)) /1000);
       if(distance < 0){
-
-
-        clearInterval(interval,current);
+        console.log(distance);
+        clearInterval(interval.current);
+        setTimeUp(true);
+        setScoreValue((score/questions.length) *100)
+        setShowScore(true);
+       
+         
+       
       }
       else{
         setDays(days);
@@ -149,50 +158,46 @@ useEffect(() => {
   return (
     <div className="App">
 
+{ timeUp && finish==false  ?(<div className='timeUpSection'>Time is up
+<div className='scoreSection'> Your score is {scoreValue}
 
+<button onClick={() => window.location.reload()}>Back</button>
+</div></div>
 
+) :(<div>
 
-
-
-
-
-
-
-
-
-      {showScore ? (<div className='scoreSection'> Your score is {scoreValue}
-       
-      <button onClick={() => window.location.reload()}>Back</button>
-      </div>
+{showScore ? (<div className='scoreSection'> Your score is {scoreValue}
+ 
+<button onClick={() => window.location.reload()}>Back</button>
+</div>
 ) : (    
 <div>
-  <div className= "questionSection">
-<div className='questionNum'>
-<span>Question {current + 1} / {questions.length} </span>
-  </div><div className='timer'>
-  <section>
-    Time left {hours}:{mins}:{secs}
+<div className= "questionSection">
+  <ul>
+    <li className='questionNumLi'>
+      Question {current + 1} / {questions.length}      
+    </li>
+    <li className='timerLi'>
+        <section>Time left {hours}:{mins}:{secs}</section>
+</li>
+</ul>
 
-  </section>
-  
-  
-  
-  
-  
-  </div>
-  <div className='questionText'>{questions[current].questionText}</div>
+<div className='questionText'>{questions[current].questionText}   </div>
 
 
 
 
 
-      </div>
+</div>
 <div className='answerSection'>{questions[current].options.map((option) => 
 <button onClick={() =>handleAnswerButtonClick(option.isCorrect)}>{option.answerText}</button>)}
 </div>
 </div>
 )}
- 
+</div>)}
+
+
+
     </div>
   );
 }

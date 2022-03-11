@@ -21,7 +21,7 @@ code {
 .App {
  
   background-color:antiquewhite;
-  width: 480px;
+  width: 500px;
   min-height: 200px;
   height: min-content;
   border-radius: 15px;
@@ -34,6 +34,8 @@ code {
   
 
 }
+
+
 .answerSection{
   display: flex;
   flex-direction: column;
@@ -42,16 +44,18 @@ code {
 }
 .questionSection{
   width: 50%;
-  position: relative;
-  font-size: medium;
 
+  font-size: medium;
+display: inline-block;
   /* padding-right: 30px; */
 }
 .questionNum{
-  margin-bottom: 10px;
-
-
-  
+  padding-right: 240px;
+  display: inline-block;
+  position:absolute;
+}
+.questionNumLi{
+  display: inline-block;
 }
 .questionText{
   padding:5px;
@@ -69,4 +73,13 @@ button{
 }
 button:focus {
   outline: none;
+}
+.timer{
+  display: inline-block;
+
+}
+.timerLi{
+  padding: 50px;
+
+  display: inline-block;
 }
