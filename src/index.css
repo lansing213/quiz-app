@@ -74,7 +74,8 @@ button:focus {
   outline: none;
 }
 button:hover{
-  
+  background-color: #53586b;
+
 }
 .timer{
   padding-left: 250px;
