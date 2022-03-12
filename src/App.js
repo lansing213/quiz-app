@@ -6,6 +6,8 @@ import './App.css';
 import userEvent from '@testing-library/user-event';
 
 function App() {
+
+  // initializes questions
   const questions = [
     {
       questionText: "Who is the CEO of Microsoft?",
@@ -80,7 +82,7 @@ let interval;
 
 
 
-
+// answer correct: score + 1, incorrect: + 0
 const handleAnswerButtonClick = (isCorrect) =>{
 
     if(isCorrect === true){
@@ -99,19 +101,6 @@ const handleAnswerButtonClick = (isCorrect) =>{
     }
 
 };
-// const handleBackButtonClick = (isBack) =>{
-
-//     if(isBack === true){
-
-
-
-
-//     }
-
-
-
-// }
-// let history = useHistory();
 
 
 // convert time into miliseconds
@@ -146,7 +135,7 @@ const timer = () =>{
       const secs = Math.floor((distance % (60*1000)) /1000);
 
 
-
+// time is up: set the current score instantly
         if(distance < 0){
           console.log(distance);
           clearInterval(interval.current);
@@ -158,6 +147,7 @@ const timer = () =>{
          
         }
         else{
+          // display the time when finishes the quiz in time
           setDays(days);
           setHours(hours);
           setMins(mins);
@@ -233,7 +223,7 @@ useEffect((now) => {
 
 
 </div>)}
-
+{/* button to start the quiz */}
 
 
 
