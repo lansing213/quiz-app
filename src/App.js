@@ -72,6 +72,15 @@ const [score, setScore] = useState(0);
 const [showScore,setShowScore] = useState(false);
 const [scoreValue,setScoreValue ]= useState(0);
 let interval;
+
+
+
+
+
+
+
+
+
 const handleAnswerButtonClick = (isCorrect) =>{
 
     if(isCorrect === true){
@@ -105,60 +114,81 @@ const handleAnswerButtonClick = (isCorrect) =>{
 // let history = useHistory();
 
 
-
-const [countDownDate, setCountDownDate] = useState(new Date().getTime() + (100*1000));
+// convert time into miliseconds
+const [countDownDate, setCountDownDate] = useState(new Date().getTime() + (10*1000));
+// const [now,setNow] = useState(new Date().getTime());
 const [days, setDays] = useState();
 const [hours,setHours] = useState();
 const [mins,setMins] = useState();
 const [secs,setSecs] = useState();
 const [timeUp,setTimeUp] = useState(false);
 const [finish,setFinish] = useState(false);
+const [start,setStart] = useState(false);
 // const [distance, setDistance] = useState();
 
 // const tempTime = new Date();
 const tempTime = new Date();
 
+
+
+  
+
+
 const timer = () =>{
 
  
   interval = setInterval(() =>{
-    const now = new Date().getTime();
-
+      const now = new Date().getTime();
       const distance = countDownDate - now;
       const days = Math.floor(distance/ (24*60*60*1000));
       const hours = Math.floor((distance % (24*60*60*1000)) /(60*60*1000));
       const mins = Math.floor((distance % (60*60*1000)) /(60*1000));
       const secs = Math.floor((distance % (60*1000)) /1000);
-      if(distance < 0){
-        console.log(distance);
-        clearInterval(interval.current);
-        setTimeUp(true);
-        setScoreValue((score/questions.length) *100)
-        setShowScore(true);
-       
-         
-       
-      }
-      else{
-        setDays(days);
-        setHours(hours);
-        setMins(mins);
-        setSecs(secs);
 
-      }
+
+
+        if(distance < 0){
+          console.log(distance);
+          clearInterval(interval.current);
+          setTimeUp(true);
+          setScoreValue((score/questions.length) *100)
+          setShowScore(true);
+         
+           
+         
+        }
+        else{
+          setDays(days);
+          setHours(hours);
+          setMins(mins);
+          setSecs(secs);
+  
+        }
+    
+
+   
+ 
 
 
   });
 
 
 }
-useEffect(() => {
-  timer();
+useEffect((now) => {
+
+  if(start === true){
+
+    timer();
+
+  }else{
+
+  }
+ 
+ 
 });
   return (
     <div className="App">
-
-{ timeUp && finish==false  ?(<div className='timeUpSection'>Time is up
+{start ? (<div>{ timeUp && finish==false  ?(<div className='timeUpSection'>Time is up
 <div className='scoreSection'> Your score is {scoreValue}
 
 <button onClick={() => window.location.reload()}>Back</button>
@@ -193,7 +223,17 @@ useEffect(() => {
 </div>
 </div>
 )}
+</div>)}</div>) :(<div>
+
+
+<div><p>This test is aim to test candidates' knowledge.{"\n"} You have 10 seconds to finish the test.{"\n"}Your answer will be 
+  automatcally saved when time is up.</p>
+</div >
+<div className='startSection'></div><button className='startButton' onClick={() =>{setStart(true);setCountDownDate(new Date().getTime() + (10*1000));}}> Click to begin</button>
+
+
 </div>)}
+
 
 
 

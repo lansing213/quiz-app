@@ -82,3 +82,9 @@ button:hover{
   position: absolute;
   display: inline-block;
 }
+.startSection{
+  padding:10px;
+}
+p{
+  white-space: pre-line;
+}
