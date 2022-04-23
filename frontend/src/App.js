@@ -1,12 +1,13 @@
-import logo from './logo.svg';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import './App.css';
+import StartSection from './components/StartSection';
 // import { useHistory } from "react-router-dom";
-import userEvent from '@testing-library/user-event';
+
+import { BrowserRouter } from 'react-router-dom';
+// import Home from './components/Home';
 
 function App() {
-
   // initializes questions
   const questions = [
     {
@@ -28,8 +29,8 @@ function App() {
     options:[
       {answerText:"Euro", isCorrect:false},
       {answerText:"Bitcoin", isCorrect:false},
-      {answerText:"Yen", isCorrect:false},
-      {answerText: "Dollar", isCorrect: true}
+      {answerText:"Yen", isCorrect:true},
+      {answerText: "Dollar", isCorrect: false}
 
 
     ],
@@ -58,8 +59,8 @@ function App() {
   options:[
     {answerText:"Japan", isCorrect:false},
     {answerText:"France", isCorrect:false},
-    {answerText:"America", isCorrect:false},
-    {answerText: "Brazil", isCorrect: true}
+    {answerText:"America", isCorrect:true},
+    {answerText: "Brazil", isCorrect: false}
 
 
   ],
@@ -219,8 +220,7 @@ useEffect((now) => {
 <div><p>This test is aim to test candidates' knowledge.{"\n"} You have 10 seconds to finish the test.{"\n"}Your answer will be 
   automatcally saved when time is up.</p>
 </div >
-<div className='startSection'></div><button className='startButton' onClick={() =>{setStart(true);setCountDownDate(new Date().getTime() + (10*1000));}}> Click to begin</button>
-
+<StartSection  handleStart = {start => setStart(start)}  handleCountDownDate={countDownDate => setCountDownDate(countDownDate)} />
 
 </div>)}
 {/* button to start the quiz */}
