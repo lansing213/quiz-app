@@ -188,7 +188,8 @@ useEffect((now) => {
 ) :(<div>
 
 {showScore ? (<div className='scoreSection'> Your score is {scoreValue}
- 
+ {scoreValue === 100 ? <div>Congratulations!</div>
+:scoreValue < 50 ?<div>Unfortunately, you didn't pass the quiz.</div> :<div></div>}
 <button onClick={() => window.location.reload()}>Back</button>
 </div>
 ) : (    
