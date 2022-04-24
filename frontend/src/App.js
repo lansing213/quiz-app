@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useState } from 'react';
 import './App.css';
 import StartSection from './components/StartSection';
@@ -11,6 +11,7 @@ function App() {
   // initializes questions
   const questions = [
     {
+      
       questionText: "Who is the CEO of Microsoft?",
       options:[
         {answerText: "Bill Gates", isCorrect: true},
@@ -59,7 +60,7 @@ function App() {
   options:[
     {answerText:"Japan", isCorrect:false},
     {answerText:"France", isCorrect:false},
-    {answerText:"America", isCorrect:true},
+    {answerText:"U.S", isCorrect:true},
     {answerText: "Brazil", isCorrect: false}
 
 
@@ -74,7 +75,7 @@ const [current, setCurrent] = useState(0);
 const [score, setScore] = useState(0);
 const [showScore,setShowScore] = useState(false);
 const [scoreValue,setScoreValue ]= useState(0);
-let interval;
+let interval = useRef();
 
 
 
@@ -85,7 +86,6 @@ let interval;
 
 // answer correct: score + 1, incorrect: + 0
 const handleAnswerButtonClick = (isCorrect) =>{
-
     if(isCorrect === true){
       setScore(score + 1 );
     }
@@ -95,6 +95,7 @@ const handleAnswerButtonClick = (isCorrect) =>{
     } 
     else{
       // alert("Congrats, you finished the quiz!");
+      clearInterval(interval.current)
       setScoreValue((score/questions.length) *100)
       setFinish(true);
       setShowScore(true);
@@ -105,9 +106,8 @@ const handleAnswerButtonClick = (isCorrect) =>{
 
 
 // convert time into miliseconds
-const [countDownDate, setCountDownDate] = useState(new Date().getTime() + (10*1000));
-// const [now,setNow] = useState(new Date().getTime());
-const [days, setDays] = useState();
+const [countDownDate, setCountDownDate] = useState(0);
+const [now,setNow] = useState(5*1000);
 const [hours,setHours] = useState();
 const [mins,setMins] = useState();
 const [secs,setSecs] = useState();
@@ -116,12 +116,7 @@ const [finish,setFinish] = useState(false);
 const [start,setStart] = useState(false);
 // const [distance, setDistance] = useState();
 
-// const tempTime = new Date();
-const tempTime = new Date();
 
-
-
-  
 
 
 const timer = () =>{
@@ -130,31 +125,30 @@ const timer = () =>{
   interval = setInterval(() =>{
       const now = new Date().getTime();
       const distance = countDownDate - now;
-      const days = Math.floor(distance/ (24*60*60*1000));
       const hours = Math.floor((distance % (24*60*60*1000)) /(60*60*1000));
       const mins = Math.floor((distance % (60*60*1000)) /(60*1000));
       const secs = Math.floor((distance % (60*1000)) /1000);
 
 
 // time is up: set the current score instantly
-        if(distance < 0){
-          console.log(distance);
-          clearInterval(interval.current);
-          setTimeUp(true);
-          setScoreValue((score/questions.length) *100)
-          setShowScore(true);
-         
-           
-         
-        }
-        else{
-          // display the time when finishes the quiz in time
-          setDays(days);
-          setHours(hours);
-          setMins(mins);
-          setSecs(secs);
-  
-        }
+   
+      if(distance < 0){
+        clearInterval(interval);
+        setTimeUp(true);
+        console.log(interval)
+
+        setScoreValue((score/questions.length) *100)
+        setShowScore(true);
+
+      }
+      else{
+        // display the time when finishes the quiz in time
+        setHours(hours);
+        setMins(mins);
+        setSecs(secs);
+      }
+    
+      
     
 
    
@@ -165,63 +159,69 @@ const timer = () =>{
 
 
 }
-useEffect((now) => {
+useEffect(() => {
 
   if(start === true){
 
     timer();
-
-  }else{
-
+   
+    return() => {
+      clearInterval(interval.current)
+    }
   }
+  
  
  
 });
   return (
     <div className="App">
-{start ? (<div>{ timeUp && finish==false  ?(<div className='timeUpSection'>Time is up
-<div className='scoreSection'> Your score is {scoreValue}
-
-<button onClick={() => window.location.reload()}>Back</button>
-</div></div>
-
-) :(<div>
-
-{showScore ? (<div className='scoreSection'> Your score is {scoreValue}
- {scoreValue === 100 ? <div>Congratulations!</div>
-:scoreValue < 50 ?<div>Unfortunately, you didn't pass the quiz.</div> :<div></div>}
-<button onClick={() => window.location.reload()}>Back</button>
-</div>
-) : (    
-<div>
-<div className= "questionSection">
-
-    <div className='questionNum'>
-      Question {current + 1} / {questions.length}      
+    {start ? 
+      (<div>{( timeUp && finish === false) ?(<div className='timeUpSection'>Time is up
+    <div className='scoreSection'> Your score is {scoreValue}
+      {scoreValue === 100 ? <div>Congratulations!</div>
+        :scoreValue < 50 ?<div>Unfortunately, you didn't pass the quiz.</div> :<div></div>}
+      <button onClick={() => window.location.reload()}>Back</button>
     </div>
-    <div className='timer'>
-        Time left {hours}:{mins}:{secs}
-</div>
+    </div>
 
-<div className='questionText'>{questions[current].questionText}   </div>
+    ) : (<div  >
+
+  {finish ? (<div className='scoreSection'> Your score is {scoreValue}
+    {scoreValue === 100 ? <div>Congratulations!</div>
+    :scoreValue < 50 ?<div>Unfortunately, you didn't pass the quiz.</div> :<div></div>}
+  <button onClick={() => window.location.reload()}>Back</button>
+  </div>
+  ) : (    
+  <div>
+    <div className= "questionSection">
+
+      <div className='questionNum'>
+        Question {current + 1} / {questions.length}      
+      </div>
+      <div className='timer'>
+          Time left {hours}:{mins}:{secs}
+      </div>
+
+  <div className='questionText'>{questions[current].questionText}   </div>
 
 
 
 
 
-</div>
-<div className='answerSection'>{questions[current].options.map((option) => 
-<button onClick={() =>handleAnswerButtonClick(option.isCorrect)}>{option.answerText}</button>)}
-</div>
-</div>
-)}
-</div>)}</div>) :(<div>
+  </div>
+  <div className='answerSection'>{questions[current].options.map((option,pos) =>  
+  <button key={pos} onClick={() =>handleAnswerButtonClick(option.isCorrect)}>{option.answerText}</button>)}
+  </div>
+  </div>
+  )}
+  </div>)}
+</div>) :(<div>
 
 
-<div><p>This test is aim to test candidates' knowledge.{"\n"} You have 10 seconds to finish the test.{"\n"}Your answer will be 
-  automatcally saved when time is up.</p>
-</div >
-<StartSection  handleStart = {start => setStart(start)}  handleCountDownDate={countDownDate => setCountDownDate(countDownDate)} />
+      <div><p>This test aim to test candidates' knowledge.{"\n"} You have 10 seconds to finish the test.{"\n"}Your answer will be 
+        automatcally saved when time is up.</p>
+      </div >
+<StartSection  handleStart = {start => setStart(start)}  handleCountDownDate={countDownDate => setCountDownDate(countDownDate)} passedTime = {now}/>
 
 </div>)}
 {/* button to start the quiz */}
