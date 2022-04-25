@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { useState } from 'react';
 import './App.css';
 import StartSection from './components/StartSection';
+import SectionDisplay from './components/SectionDisplay';
 // import { useHistory } from "react-router-dom";
 
 import { BrowserRouter } from 'react-router-dom';
@@ -107,7 +108,7 @@ const handleAnswerButtonClick = (isCorrect) =>{
 
 // convert time into miliseconds
 const [countDownDate, setCountDownDate] = useState(0);
-const [now,setNow] = useState(5*1000);
+const [now,setNow] = useState(0);
 const [hours,setHours] = useState();
 const [mins,setMins] = useState();
 const [secs,setSecs] = useState();
@@ -160,9 +161,9 @@ const timer = () =>{
 
 }
 useEffect(() => {
-
+  setNow(5*1000)
   if(start === true){
-
+    
     timer();
    
     return() => {
@@ -192,27 +193,11 @@ useEffect(() => {
   <button onClick={() => window.location.reload()}>Back</button>
   </div>
   ) : (    
-  <div>
-    <div className= "questionSection">
-
-      <div className='questionNum'>
-        Question {current + 1} / {questions.length}      
-      </div>
-      <div className='timer'>
-          Time left {hours}:{mins}:{secs}
-      </div>
-
-  <div className='questionText'>{questions[current].questionText}   </div>
-
-
-
-
-
-  </div>
-  <div className='answerSection'>{questions[current].options.map((option,pos) =>  
-  <button key={pos} onClick={() =>handleAnswerButtonClick(option.isCorrect)}>{option.answerText}</button>)}
-  </div>
-  </div>
+    <SectionDisplay currentQuestion = {current} questionAmount = {questions}
+      hour = {hours} min = {mins} sec = {secs}  handleClick = {isCorrect => handleAnswerButtonClick(isCorrect)}  
+    
+    
+    />
   )}
   </div>)}
 </div>) :(<div>
