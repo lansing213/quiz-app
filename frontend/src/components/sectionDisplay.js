@@ -19,7 +19,7 @@ function SectionDisplay(props) {
 
 
 
-
++
 
   </div>
   <div className='answerSection'>{props.questionAmount[props.currentQuestion].options.map((option,pos) =>  
